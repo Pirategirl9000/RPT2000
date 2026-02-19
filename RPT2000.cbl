@@ -12,7 +12,7 @@
        INPUT-OUTPUT SECTION.                                            00130001
                                                                         00140001
        FILE-CONTROL.                                                    00150001
-           SELECT CUSTMAST ASSIGN TO CUSTMAS.                           00160001
+           SELECT CUSTMAST ASSIGN TO CUSTMAST.                          00160001
            SELECT RPT2000 ASSIGN TO RPT2000.                            00170001
                                                                         00180001
        DATA DIVISION.                                                   00190001

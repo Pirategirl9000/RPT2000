@@ -4,9 +4,9 @@
                                                                         00040001
       *   Programmers.: Violet French                                   00050001
       *   Date........: 2026.02.19                                      00060001
-      *   Github URL..:                                                 00070001
-      *   Description: This program uses hard coded values to calculate 00090001
-      *   investments and doubles them twice.                           00100001
+      *   Github URL..: https://github.com/Pirategirl9000/RPT2000       00070001
+      *   Description.: This program produces a sales report based on   00090001
+      *   values acquired from the CUSTMAST dataset                     00100001
        ENVIRONMENT DIVISION.                                            00110001
                                                                         00120001
        INPUT-OUTPUT SECTION.                                            00130001

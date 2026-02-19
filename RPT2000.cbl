@@ -153,6 +153,10 @@
                                                                         01180001
        PROCEDURE DIVISION.                                              01190001
                                                                         01200001
+      **************************************************************    01201011
+      * OPENS AND CLOSES THE FILES AND DELEGATES THE WORK FOR      *    01202011
+      * READING AND WRITING TO AND FROM THEM                       *    01202111
+      **************************************************************    01203011
        000-PREPARE-SALES-REPORT.                                        01210001
                                                                         01220001
            OPEN INPUT  CUSTMAST                                         01230001
@@ -165,6 +169,10 @@
                  RPT2000.                                               01300001
            STOP RUN.                                                    01310001
                                                                         01320001
+      **************************************************************    01321011
+      * FORMATS THE REPORT HEADER BY GRABBING THE DATE TIME AND    *    01322011
+      * STORING IT IN THE RELEVENT HEADER DATA ITEMS               *    01323011
+      **************************************************************    01324011
        100-FORMAT-REPORT-HEADING.                                       01330001
                                                                         01340001
            MOVE FUNCTION CURRENT-DATE TO CURRENT-DATE-AND-TIME.         01350001
@@ -174,18 +182,32 @@
            MOVE CD-HOURS   TO HL2-HOURS.                                01390001
            MOVE CD-MINUTES TO HL2-MINUTES.                              01400001
                                                                         01410001
+      **************************************************************    01411011
+      * CALLS THE PARAGRAPH TO READ A LINE OF THE CUSTOMER RECORD  *    01412011
+      * THEN CALLS THE PARAGRAPH TO PRINT THE LINE IF ITS NOT THE  *    01413011
+      * TERMINATING LINE OF THE FILE                               *    01413111
+      **************************************************************    01414011
        200-PREPARE-SALES-LINES.                                         01420001
                                                                         01430001
            PERFORM 210-READ-CUSTOMER-RECORD.                            01440001
            IF CUSTMAST-EOF-SWITCH = "N"                                 01450001
                PERFORM 220-PRINT-CUSTOMER-LINE.                         01460001
                                                                         01470001
+      **************************************************************    01471011
+      * READS A LINE OF THE INPUT FILE AND IF ITS THE LAST ONE     *    01472011
+      * UPDATES THE CUSTOMER-EOF-SWITCH (END-OF-FILE)              *    01473011
+      **************************************************************    01474011
        210-READ-CUSTOMER-RECORD.                                        01480001
                                                                         01490001
            READ CUSTMAST                                                01500001
                AT END                                                   01510001
                    MOVE "Y" TO CUSTMAST-EOF-SWITCH.                     01520001
                                                                         01530001
+      **************************************************************    01531011
+      * PRINTS THE CURRENT CUSTOMER LINE TO THE OUTPUT FILE        *    01532011
+      * UPDATES THE LINE COUNTER SO IT KNOWS WHEN IT HAS TO        *    01533011
+      * REPRINT THE HEADER LINES FOR A NEW PAGE                    *    01533111
+      **************************************************************    01534011
        220-PRINT-CUSTOMER-LINE.                                         01540001
                                                                         01550001
            IF LINE-COUNT >= LINES-ON-PAGE                               01560001
@@ -201,6 +223,10 @@
            ADD CM-SALES-LAST-YTD TO GRAND-TOTAL-LAST-YTD.               01660001
            MOVE 1 TO SPACE-CONTROL.                                     01670001
                                                                         01680001
+      **************************************************************    01681011
+      * PRINT ALL THE HEADER LINES TO THE OUTPUT FILE, RAN ONCE    *    01682011
+      * FOR EVERY PAGE                                             *    01683011
+      **************************************************************    01684011
        230-PRINT-HEADING-LINES.                                         01690001
                                                                         01700001
            ADD 1 TO PAGE-COUNT.                                         01710001
@@ -216,6 +242,11 @@
            MOVE ZERO TO LINE-COUNT.                                     01810001
            MOVE 2 TO SPACE-CONTROL.                                     01820001
                                                                         01830001
+      **************************************************************    01831011
+      * PRINTS THE GRAND TOTALS FOR ALL THE CUSTOMERS, RAN ONCE    *    01832011
+      * AT THE VERY END OF THE PROGRAM WHEN ALL CUSTOMERS HAVE     *    01833011
+      * BEEN PRINTED                                               *    01833111
+      **************************************************************    01834011
        300-PRINT-GRAND-TOTALS.                                          01840001
                                                                         01850001
            MOVE GRAND-TOTAL-THIS-YTD TO GTL-SALES-THIS-YTD.             01860001

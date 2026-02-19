@@ -120,13 +120,13 @@
        000-PREPARE-SALES-REPORT.                                        01210001
                                                                         01220001
            OPEN INPUT  CUSTMAST                                         01230001
-                OUTPUT SALESRPT.                                        01240001
+                OUTPUT RPT2000.                                         01240001
            PERFORM 100-FORMAT-REPORT-HEADING.                           01250001
            PERFORM 200-PREPARE-SALES-LINES                              01260001
                UNTIL CUSTMAST-EOF-SWITCH = "Y".                         01270001
            PERFORM 300-PRINT-GRAND-TOTALS.                              01280001
            CLOSE CUSTMAST                                               01290001
-                 SALESRPT.                                              01300001
+                 RPT2000.                                               01300001
            STOP RUN.                                                    01310001
                                                                         01320001
        100-FORMAT-REPORT-HEADING.                                       01330001

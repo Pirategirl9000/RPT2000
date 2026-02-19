@@ -1,6 +1,6 @@
        IDENTIFICATION DIVISION.                                         00010001
                                                                         00020001
-       PROGRAM-ID. RPT1000.                                             00030006
+       PROGRAM-ID. RPT2000.                                             00030006
                                                                         00040001
       *   Programmers.: Violet French                                   00050001
       *   Date........: 2026.02.19                                      00060001
@@ -13,7 +13,7 @@
                                                                         00140001
        FILE-CONTROL.                                                    00150001
            SELECT CUSTMAST ASSIGN TO CUSTMAST.                          00160001
-           SELECT RPT2000 ASSIGN TO RPT2000.                            00170001
+           SELECT ORPT2000 ASSIGN TO RPT2000.                           00170001
                                                                         00180001
        DATA DIVISION.                                                   00190001
                                                                         00200001
@@ -39,7 +39,7 @@
       **************************************************************    00361010
       * OUTPUT FILE                                                *    00362010
       **************************************************************    00363010
-       FD  RPT2000                                                      00370001
+       FD  ORPT2000                                                     00370001
            RECORDING MODE IS F                                          00380001
            LABEL RECORDS ARE STANDARD                                   00390001
            RECORD CONTAINS 130 CHARACTERS                               00400001
@@ -160,13 +160,13 @@
        000-PREPARE-SALES-REPORT.                                        01210001
                                                                         01220001
            OPEN INPUT  CUSTMAST                                         01230001
-                OUTPUT RPT2000.                                         01240001
+                OUTPUT ORPT2000.                                        01240001
            PERFORM 100-FORMAT-REPORT-HEADING.                           01250001
            PERFORM 200-PREPARE-SALES-LINES                              01260001
                UNTIL CUSTMAST-EOF-SWITCH = "Y".                         01270001
            PERFORM 300-PRINT-GRAND-TOTALS.                              01280001
            CLOSE CUSTMAST                                               01290001
-                 RPT2000.                                               01300001
+                 ORPT2000.                                              01300001
            STOP RUN.                                                    01310001
                                                                         01320001
       **************************************************************    01321011

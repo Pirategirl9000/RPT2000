@@ -81,6 +81,12 @@
            05  CD-MINUTES      PIC 99.                                  00640001
            05  FILLER          PIC X(9).                                00650001
                                                                         00660001
+      **************************************************************    00660114
+      * STORES FIELDS USING VALUES CALCULATED PER CUSTOMER         *    00660214
+      **************************************************************    00660314
+       01  CALCULATED-FIELDS.                                           00660414
+           05 CHANGE-AMOUNT    PIC S9(5)V99.                            00660514
+                                                                        00660614
       **************************************************************    00661010
       * STORES THE FIRST HEADER LINE INFORMATION FOR DISPLAYING    *    00662010
       **************************************************************    00663010
@@ -117,7 +123,8 @@
            05  FILLER      PIC X(20)   VALUE "CUST                ".    00910001
            05  FILLER      PIC X(20)   VALUE "            SALES   ".    00920001
            05  FILLER      PIC X(20)   VALUE "      SALES         ".    00930001
-           05  FILLER      PIC X(69)   VALUE SPACE.                     00940001
+           05  FILLER      PIC X(20)   VALUE "CHANGE     CHANGE   ".    00931013
+           05  FILLER      PIC X(50)   VALUE SPACE.                     00940013
                                                                         00950001
       **************************************************************    00951010
       * STORES THE FOURTH HEADER LINE INFORMATION FOR DISPLAYING   *    00952010
@@ -126,7 +133,8 @@
            05  FILLER      PIC X(20)   VALUE "NUM    CUSTOMER NAME".    00970001
            05  FILLER      PIC X(20)   VALUE "           THIS YTD ".    00980001
            05  FILLER      PIC X(20)   VALUE "     LAST YTD       ".    00990001
-           05  FILLER      PIC X(69)   VALUE SPACE.                     01000001
+           05  FILLER      PIC X(20)   VALUE "AMOUNT    PERCENT   ".    00991014
+           05  FILLER      PIC X(50)   VALUE SPACE.                     01000014
                                                                         01010001
       **************************************************************    01011010
       * STORES INFORMATION ABOUT CURRENT CUSTOMER FOR DISPLAYING   *    01012010
@@ -139,7 +147,11 @@
            05  CL-SALES-THIS-YTD   PIC ZZ,ZZ9.99-.                      01070001
            05  FILLER              PIC X(4)     VALUE SPACE.            01080001
            05  CL-SALES-LAST-YTD   PIC ZZ,ZZ9.99-.                      01090001
-           05  FILLER              PIC X(69)    VALUE SPACE.            01100001
+           05  FILLER              PIC X(4)     VALUE SPACE.            01091014
+           05  CL-CHANGE-AMOUNT    PIC ZZ,ZZ9.99-.                      01092014
+           05  FILLER              PIC X(3)     VALUE SPACE.            01093014
+           05  CL-CHANGE-PERCENT   PIC ZZ9.9-.                          01094014
+           05  FILLER              PIC X(53)    VALUE SPACE.            01100014
                                                                         01110001
       **************************************************************    01111010
       * STORES INFORMATION ABOUT THE GRAND TOTAL FOR DISPLAYING    *    01112010
@@ -149,7 +161,11 @@
            05  GTL-SALES-THIS-YTD  PIC Z,ZZZ,ZZ9.99-.                   01140001
            05  FILLER              PIC X(1)     VALUE SPACE.            01150001
            05  GTL-SALES-LAST-YTD  PIC Z,ZZZ,ZZ9.99-.                   01160001
-           05  FILLER              PIC X(69)    VALUE SPACE.            01170001
+           05  FILLER              PIC X        VALUE SPACE.            01161014
+           05  GTL-CHANGE-AMOUNT   PIC Z,ZZZ,ZZ9.99-.                   01162014
+           05  FILLER              PIC X(3)     VALUE SPACE.            01162114
+           05  GTL-CHANGE-PERCENT  PIC ZZ9.9-.                          01163014
+           05  FILLER              PIC X(53)    VALUE SPACE.            01170014
                                                                         01180001
        PROCEDURE DIVISION.                                              01190001
                                                                         01200001

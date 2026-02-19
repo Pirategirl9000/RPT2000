@@ -136,6 +136,12 @@
            05  FILLER      PIC X(20)   VALUE "AMOUNT    PERCENT   ".    00991014
            05  FILLER      PIC X(50)   VALUE SPACE.                     01000014
                                                                         01010001
+      **************************************************************    01010115
+      * STORES THE FIFTH HEADER LINE FOR DISPLAYING A LINE SPACER  *    01010215
+      **************************************************************    01010315
+       01  HEADING-LINE-5.                                              01010415
+           05 FILLER               PIC X(130)   VALUE SPACE.            01010515
+                                                                        01010615
       **************************************************************    01011010
       * STORES INFORMATION ABOUT CURRENT CUSTOMER FOR DISPLAYING   *    01012010
       **************************************************************    01013010

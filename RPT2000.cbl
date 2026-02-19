@@ -13,7 +13,7 @@
                                                                         00140001
        FILE-CONTROL.                                                    00150001
            SELECT CUSTMAST ASSIGN TO CUSTMAS.                           00160001
-           SELECT SALESRPT ASSIGN TO SALESRPT.                          00170001
+           SELECT RPT2000 ASSIGN TO RPT2000.                            00170001
                                                                         00180001
        DATA DIVISION.                                                   00190001
                                                                         00200001
@@ -33,7 +33,7 @@
            05  CM-SALES-LAST-YTD       PIC S9(5)V9(2).                  00340001
            05  FILLER                  PIC X(87).                       00350001
                                                                         00360001
-       FD  SALESRPT                                                     00370001
+       FD  RPT2000                                                      00370001
            RECORDING MODE IS F                                          00380001
            LABEL RECORDS ARE STANDARD                                   00390001
            RECORD CONTAINS 130 CHARACTERS                               00400001

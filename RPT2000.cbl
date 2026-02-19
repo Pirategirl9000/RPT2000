@@ -19,6 +19,9 @@
                                                                         00200001
        FILE SECTION.                                                    00210001
                                                                         00220001
+      **************************************************************    00221010
+      * INPUT FILE                                                 *    00222010
+      **************************************************************    00224010
        FD  CUSTMAST                                                     00230001
            RECORDING MODE IS F                                          00240001
            LABEL RECORDS ARE STANDARD                                   00250001
@@ -33,6 +36,9 @@
            05  CM-SALES-LAST-YTD       PIC S9(5)V9(2).                  00340001
            05  FILLER                  PIC X(87).                       00350001
                                                                         00360001
+      **************************************************************    00361010
+      * OUTPUT FILE                                                *    00362010
+      **************************************************************    00363010
        FD  RPT2000                                                      00370001
            RECORDING MODE IS F                                          00380001
            LABEL RECORDS ARE STANDARD                                   00390001
@@ -42,19 +48,31 @@
                                                                         00430001
        WORKING-STORAGE SECTION.                                         00440001
                                                                         00450001
+      **************************************************************    00451010
+      * SWITCH FOR END OF FILE                                     *    00452010
+      **************************************************************    00453010
        01  SWITCHES.                                                    00460001
            05  CUSTMAST-EOF-SWITCH     PIC X    VALUE "N".              00470001
                                                                         00480001
+      **************************************************************    00481010
+      * STORES INFORMATION RELEVANT TO THE PAGE                    *    00482010
+      **************************************************************    00483010
        01  PRINT-FIELDS.                                                00490001
            05  PAGE-COUNT      PIC S9(3)   VALUE ZERO.                  00500001
            05  LINES-ON-PAGE   PIC S9(3)   VALUE +55.                   00510001
            05  LINE-COUNT      PIC S9(3)   VALUE +99.                   00520001
            05  SPACE-CONTROL   PIC S9.                                  00530001
                                                                         00540001
+      **************************************************************    00541010
+      * STORES TOTAL FIELDS FOR CALCULATING                        *    00542010
+      **************************************************************    00543010
        01  TOTAL-FIELDS.                                                00550001
            05  GRAND-TOTAL-THIS-YTD   PIC S9(7)V99   VALUE ZERO.        00560001
            05  GRAND-TOTAL-LAST-YTD   PIC S9(7)V99   VALUE ZERO.        00570001
                                                                         00580001
+      **************************************************************    00581010
+      * STORES CURRENT DATE-TIME FOR THE REPORT                    *    00582010
+      **************************************************************    00583010
        01  CURRENT-DATE-AND-TIME.                                       00590001
            05  CD-YEAR         PIC 9999.                                00600001
            05  CD-MONTH        PIC 99.                                  00610001
@@ -63,6 +81,9 @@
            05  CD-MINUTES      PIC 99.                                  00640001
            05  FILLER          PIC X(9).                                00650001
                                                                         00660001
+      **************************************************************    00661010
+      * STORES THE FIRST HEADER LINE INFORMATION FOR DISPLAYING    *    00662010
+      **************************************************************    00663010
        01  HEADING-LINE-1.                                              00670001
            05  FILLER          PIC X(7)    VALUE "DATE:  ".             00680001
            05  HL1-MONTH       PIC 9(2).                                00690001
@@ -77,6 +98,9 @@
            05  Hl1-PAGE-NUMBER PIC ZZZ9.                                00780001
            05  FILLER          PIC X(49)   VALUE SPACE.                 00790001
                                                                         00800001
+      **************************************************************    00801010
+      * STORES THE SECOND HEADER LINE INFORMATION FOR DISPLAYING   *    00802010
+      **************************************************************    00803010
        01  HEADING-LINE-2.                                              00810001
            05  FILLER          PIC X(7)    VALUE "TIME:  ".             00820001
            05  HL2-HOURS       PIC 9(2).                                00830001
@@ -86,18 +110,27 @@
            05  FILLER          PIC X(10)   VALUE "RPT1000".             00870001
            05  FILLER          PIC X(49)   VALUE SPACE.                 00880001
                                                                         00890001
+      **************************************************************    00891010
+      * STORES THE THIRD HEADER LINE INFORMATION FOR DISPLAYING    *    00892010
+      **************************************************************    00893010
        01  HEADING-LINE-3.                                              00900001
            05  FILLER      PIC X(20)   VALUE "CUST                ".    00910001
            05  FILLER      PIC X(20)   VALUE "            SALES   ".    00920001
            05  FILLER      PIC X(20)   VALUE "      SALES         ".    00930001
            05  FILLER      PIC X(69)   VALUE SPACE.                     00940001
                                                                         00950001
+      **************************************************************    00951010
+      * STORES THE FOURTH HEADER LINE INFORMATION FOR DISPLAYING   *    00952010
+      **************************************************************    00953010
        01  HEADING-LINE-4.                                              00960001
            05  FILLER      PIC X(20)   VALUE "NUM    CUSTOMER NAME".    00970001
            05  FILLER      PIC X(20)   VALUE "           THIS YTD ".    00980001
            05  FILLER      PIC X(20)   VALUE "     LAST YTD       ".    00990001
            05  FILLER      PIC X(69)   VALUE SPACE.                     01000001
                                                                         01010001
+      **************************************************************    01011010
+      * STORES INFORMATION ABOUT CURRENT CUSTOMER FOR DISPLAYING   *    01012010
+      **************************************************************    01013010
        01  CUSTOMER-LINE.                                               01020001
            05  CL-CUSTOMER-NUMBER  PIC 9(5).                            01030001
            05  FILLER              PIC X(2)     VALUE SPACE.            01040001
@@ -108,6 +141,9 @@
            05  CL-SALES-LAST-YTD   PIC ZZ,ZZ9.99-.                      01090001
            05  FILLER              PIC X(69)    VALUE SPACE.            01100001
                                                                         01110001
+      **************************************************************    01111010
+      * STORES INFORMATION ABOUT THE GRAND TOTAL FOR DISPLAYING    *    01112010
+      **************************************************************    01113010
        01  GRAND-TOTAL-LINE.                                            01120001
            05  FILLER              PIC X(27)    VALUE SPACE.            01130001
            05  GTL-SALES-THIS-YTD  PIC Z,ZZZ,ZZ9.99-.                   01140001

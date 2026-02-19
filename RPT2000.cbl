@@ -261,6 +261,8 @@
            WRITE PRINT-AREA.                                            01780001
            MOVE HEADING-LINE-4 TO PRINT-AREA.                           01790001
            WRITE PRINT-AREA.                                            01800001
+           MOVE HEADING-LINE-5 TO PRINT-AREA.                           01801016
+           WRITE PRINT-AREA.                                            01802016
            MOVE ZERO TO LINE-COUNT.                                     01810001
            MOVE 2 TO SPACE-CONTROL.                                     01820001
                                                                         01830001

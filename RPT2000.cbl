@@ -173,11 +173,17 @@
                                                                         01012420
       **************************************************************    01012510
       * STORES INFORMATION ABOUT CURRENT CUSTOMER FOR DISPLAYING   *    01012610
-      * HOLDS THE CUSTOMER'S ID NUMBER, NAME, SALES THIS AND LAST  *    01012719
-      * YEAR-TO-DATE, DIFFERENCE BETWEEN SALES LAST-YEAR AND THIS  *    01012819
-      * YEAR AS WELL AS THE PERCENTAGE DIFFERENCE - FOR OUTPUTTING *    01012919
-      **************************************************************    01013010
+      * HOLDS THE BRANCH NUMBER, SALES REP NUMBER, CUSTOMER NUMBER,*    01012721
+      * CUSTOMER NAME, SALES THIS AND LAST YEAR-TO-DATE,           *    01012821
+      * DIFFERENCE BETWEEN THIS YEARS SALES AND LAST, AND THE      *    01012921
+      * DIFFERENCE IN PERCENT.                                     *    01013021
+      **************************************************************    01014010
        01  CUSTOMER-LINE.                                               01020001
+           05  FILLER              PIC X(2)     VALUE SPACE.            01020121
+           05  CL-BRANCH-NUMBER    PIC X(2).                            01021021
+           05  FILLER              PIC X(4)     VALUE SPACE.            01021121
+           05  CL-SALESREP-NUMBER  PIC X(2).                            01022021
+           05  FILLER              PIC X(3)     VALUE SPACE.            01023021
            05  CL-CUSTOMER-NUMBER  PIC 9(5).                            01030001
            05  FILLER              PIC X(2)     VALUE SPACE.            01040001
            05  CL-CUSTOMER-NAME    PIC X(20).                           01050001
@@ -189,7 +195,7 @@
            05  CL-CHANGE-AMOUNT    PIC ZZ,ZZ9.99-.                      01092014
            05  FILLER              PIC X(3)     VALUE SPACE.            01093014
            05  CL-CHANGE-PERCENT   PIC ZZ9.9-.                          01094014
-           05  FILLER              PIC X(53)    VALUE SPACE.            01100014
+           05  FILLER              PIC X(40)    VALUE SPACE.            01100021
                                                                         01110001
       **************************************************************    01111010
       * STORES INFORMATION ABOUT THE GRAND TOTAL FOR DISPLAYING    *    01112010
@@ -294,6 +300,8 @@
                                                                         01571018
            *> MOVE THE DATA PULLED FROM THE INPUT FILE INTO THE         01572018
            *> CUSTOMER LINE RECORD FOR LATER OUTPUT                     01573018
+           MOVE CM-BRANCH-NUMBER    TO CL-BRANCH-NUMBER.                01574021
+           MOVE CM-SALESREP-NUMBER  TO CL-SALESREP-NUMBER.              01575021
            MOVE CM-CUSTOMER-NUMBER  TO CL-CUSTOMER-NUMBER.              01580001
            MOVE CM-CUSTOMER-NAME    TO CL-CUSTOMER-NAME.                01590001
            MOVE CM-SALES-THIS-YTD   TO CL-SALES-THIS-YTD.               01600001

@@ -287,12 +287,10 @@
            *> GRAB THE NEXT LINE FROM THE CUSTOMER RECORD               01431019
            PERFORM 210-READ-CUSTOMER-RECORD.                            01440001
                                                                         01441019
-           *> IF THE LINE WE READ WASN'T THE LAST ONE AND THE TOTAL     01442019
-           *> SALES THIS YEAR-TO-DATE WAS GREATER THAN $10,000          01443019
+           *> IF THE LINE WE READ WASN'T BLANK THEN                     01442026
            *> WE WILL OUTPUT THAT CUSTOMER'S SALES TO THE OUTPUT        01444019
            *> NOTE: WE DON'T OUTPUT THE LAST LINE BECAUSE IT'S BLANK    01445019
            IF CUSTMAST-EOF-SWITCH = "N"                                 01450001
-               IF CM-SALES-THIS-YTD >= 10000                            01451018
                    PERFORM 220-PRINT-CUSTOMER-LINE.                     01460018
                                                                         01470001
       **************************************************************    01471011

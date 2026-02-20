@@ -48,6 +48,13 @@
                                                                         00430001
        WORKING-STORAGE SECTION.                                         00440001
                                                                         00450001
+      *------------------------------------------------------------*    00450129
+      *                        WORKING FIELDS                      *    00450229
+      *============================================================*    00450329
+      *     THE FOLLOWING RECORDS ARE USED FOR WORKING WITH DATA   *    00450429
+      *              AND ARE NOT USED FOR PROGRAM OUTPUT           *    00450529
+      *------------------------------------------------------------*    00450629
+                                                                        00450729
       **************************************************************    00451010
       * SWITCH FOR END OF FILE                                     *    00452010
       **************************************************************    00453010
@@ -82,13 +89,20 @@
            05  FILLER          PIC X(9).                                00650001
                                                                         00660001
       **************************************************************    00660114
-      * STORES FIELDS USING VALUES CALCULATED PER CUSTOMER         *    00660214
+      * STORES FIELDS WITH VALUES CALCULATED PER CUSTOMER         *     00660229
       **************************************************************    00660314
        01  CALCULATED-FIELDS.                                           00660414
            05 CHANGE-AMOUNT    PIC S9(5)V99.                            00660514
                                                                         00660614
-      **************************************************************    00661010
-      * STORES THE FIRST HEADER LINE INFORMATION FOR DISPLAYING    *    00662010
+      *------------------------------------------------------------*    00660729
+      *                       OUTPUT FIELDS                        *    00660829
+      *============================================================*    00660929
+      *     THE FOLLOWING RECORDS ARE USED FOR PRINTING DATA TO    *    00661029
+      *                      THE OUTPUT FILE                       *    00661129
+      *------------------------------------------------------------*    00661229
+                                                                        00661329
+      **************************************************************    00661410
+      * STORES THE FIRST HEADER LINE INFORMATION                   *    00662029
       * HOLDS THE DATE, REPORT TITLE, AND PAGE NUMBER              *    00662119
       **************************************************************    00663010
        01  HEADING-LINE-1.                                              00670001
@@ -107,8 +121,8 @@
            05  FILLER          PIC X(39)   VALUE SPACE.                 00790023
                                                                         00800001
       **************************************************************    00801010
-      * STORES THE SECOND HEADER LINE INFORMATION FOR DISPLAYING   *    00802010
-      * HOLDS THE TIME AND THE PROGRAM ID USED TO GENERATE IT      *    00802119
+      * STORES THE SECOND HEADER LINE INFORMATION                  *    00802029
+      * HOLDS THE TIME AND THE PROGRAM ID                          *    00802129
       **************************************************************    00803010
        01  HEADING-LINE-2.                                              00810001
            05  FILLER          PIC X(7)    VALUE "TIME:  ".             00820001
@@ -120,13 +134,13 @@
            05  FILLER          PIC X(39)   VALUE SPACE.                 00880023
                                                                         00890001
       **************************************************************    00890117
-      * STORES THE THIRD HEADER LINE FOR DISPLAYING A LINE SPACER  *    00890217
+      * STORES THE THIRD HEADER LINE USED TO DISPLAY A LINE SPACER *    00890229
       **************************************************************    00890317
        01  HEADING-LINE-3.                                              00890417
            05 FILLER               PIC X(130)   VALUE SPACE.            00890517
                                                                         00890617
       **************************************************************    00891010
-      * STORES THE FOURTH HEADER LINE INFORMATION FOR DISPLAYING   *    00892017
+      * STORES THE FOURTH HEADER LINE INFORMATION                  *    00892029
       * HOLDS THE DIFFERENT COLUMN NAMES - SOME ARE SPLIT ACROSS   *    00892119
       * THE NEXT HEADER LINE                                       *    00892219
       **************************************************************    00893010
@@ -140,7 +154,7 @@
            05  FILLER      PIC X(37)   VALUE SPACE.                     00940022
                                                                         00950001
       **************************************************************    00951010
-      * STORES THE FIFTH HEADER LINE INFORMATION FOR DISPLAYING    *    00952017
+      * STORES THE FIFTH HEADER LINE INFORMATION                   *    00952029
       * HOLDS SOME OF THE COLUMN NAMES AS WELL AS THE OTHER HALF   *    00952119
       * OF COLUMN NAMES THAT STARTED IN THE LAST HEADER LINE       *    00952219
       **************************************************************    00953010
@@ -154,7 +168,7 @@
            05  FILLER      PIC X(37)   VALUE SPACE.                     01000022
                                                                         01010001
       **************************************************************    01010120
-      * STORES THE SIXTH HEADER LINE INFORMATION FOR DISPLAYING    *    01010220
+      * STORES THE SIXTH HEADER LINE INFORMATION                   *    01010229
       * DISPLAYS COLUMN DIVIDERS FOR THE REPORT                    *    01010320
       **************************************************************    01010520
        01  HEADING-LINE-6.                                              01010620
@@ -176,7 +190,7 @@
            05  FILLER      PIC X(40)  VALUE SPACE.                      01012323
                                                                         01012420
       **************************************************************    01012510
-      * STORES INFORMATION ABOUT CURRENT CUSTOMER FOR DISPLAYING   *    01012610
+      * STORES INFORMATION ABOUT CURRENT CUSTOMER                  *    01012629
       * HOLDS THE BRANCH NUMBER, SALES REP NUMBER, CUSTOMER NUMBER,*    01012721
       * CUSTOMER NAME, SALES THIS AND LAST YEAR-TO-DATE,           *    01012821
       * DIFFERENCE BETWEEN THIS YEARS SALES AND LAST, AND THE      *    01012921
@@ -202,7 +216,7 @@
            05  FILLER              PIC X(40)    VALUE SPACE.            01100021
                                                                         01110001
       **************************************************************    01110124
-      * STORES THE FIRST GRAND TOTAL LINE FOR DISPLAYING           *    01110224
+      * STORES THE FIRST GRAND TOTAL LINE                          *    01110229
       * DISPLAYS COLUMN DIVIDERS FOR THE GRAND TOTALS              *    01110324
       **************************************************************    01110424
        01  GRAND-TOTAL-LINE1.                                           01110724
@@ -216,7 +230,7 @@
            05  FILLER              PIC X(6)     VALUE ALL '='.          01111524
            05  FILLER              PIC X(40)    VALUE SPACES.           01111624
       **************************************************************    01111710
-      * STORES INFORMATION ABOUT THE GRAND TOTAL FOR DISPLAYING    *    01112010
+      * STORES THE SECOND GRAND TOTAL LINE                         *    01112029
       * HOLDS THE TOTAL SALES FOR THIS AND LAST YEAR-TO-DATE,      *    01112119
       * THE TOTAL DIFFERENCE IN SALES MADE BETWEEN THE TWO YEARS   *    01112219
       * AND THE PERCENTAGE DIFFERENCE - FOR OUTPUTTING             *    01112319

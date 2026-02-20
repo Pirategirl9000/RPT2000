@@ -376,8 +376,7 @@
            WRITE PRINT-AREA.                                            01803020
                                                                         01803120
            *> RESET THE LINE COUNTER SINCE EVERY HEADER IS THE START    01804019
-           *> OF A NEW PAGE AND WE ADD 2 TO THE SPACE CONTROL           01805019
-           *> WHICH IS USED TO ADD LINE SPACING                         01806019
+           *> OF A NEW PAGE                                             01805028
            MOVE ZERO TO LINE-COUNT.                                     01810001
                                                                         01830001
       **************************************************************    01831011

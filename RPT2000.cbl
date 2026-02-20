@@ -102,9 +102,10 @@
            05  FILLER          PIC X(11)   VALUE SPACE.                 00740001
            05  FILLER          PIC X(20)   VALUE "YEAR-TO-DATE SALES R".00750001
            05  FILLER          PIC X(20)   VALUE "EPORT               ".00760017
+           05  FILLER          PIC X(10)   VALUE SPACE.                 00761023
            05  FILLER          PIC X(8)    VALUE "  PAGE: ".            00770001
            05  HL1-PAGE-NUMBER PIC ZZZ9.                                00780017
-           05  FILLER          PIC X(49)   VALUE SPACE.                 00790001
+           05  FILLER          PIC X(39)   VALUE SPACE.                 00790023
                                                                         00800001
       **************************************************************    00801010
       * STORES THE SECOND HEADER LINE INFORMATION FOR DISPLAYING   *    00802010
@@ -115,9 +116,9 @@
            05  HL2-HOURS       PIC 9(2).                                00830001
            05  FILLER          PIC X(1)    VALUE ":".                   00840001
            05  HL2-MINUTES     PIC 9(2).                                00850001
-           05  FILLER          PIC X(58)   VALUE SPACE.                 00860001
+           05  FILLER          PIC X(68)   VALUE SPACE.                 00860023
            05  FILLER          PIC X(10)   VALUE "RPT2000".             00870017
-           05  FILLER          PIC X(49)   VALUE SPACE.                 00880001
+           05  FILLER          PIC X(39)   VALUE SPACE.                 00880023
                                                                         00890001
       **************************************************************    00890117
       * STORES THE THIRD HEADER LINE FOR DISPLAYING A LINE SPACER  *    00890217
@@ -131,11 +132,13 @@
       * THE NEXT HEADER LINE                                       *    00892219
       **************************************************************    00893010
        01  HEADING-LINE-4.                                              00900017
-           05  FILLER      PIC X(20)   VALUE "CUST                ".    00910001
+           05  FILLER      PIC X(7)   VALUE "BRANCH ".                  00901022
+           05  FILLER      PIC X(6)   VALUE "SALES ".                   00902022
+           05  FILLER      PIC X(20)   VALUE "CUST                ".    00910023
            05  FILLER      PIC X(20)   VALUE "            SALES   ".    00920001
            05  FILLER      PIC X(20)   VALUE "      SALES         ".    00930001
            05  FILLER      PIC X(20)   VALUE "CHANGE     CHANGE   ".    00931013
-           05  FILLER      PIC X(50)   VALUE SPACE.                     00940013
+           05  FILLER      PIC X(37)   VALUE SPACE.                     00940022
                                                                         00950001
       **************************************************************    00951010
       * STORES THE FIFTH HEADER LINE INFORMATION FOR DISPLAYING    *    00952017
@@ -143,11 +146,13 @@
       * OF COLUMN NAMES THAT STARTED IN THE LAST HEADER LINE       *    00952219
       **************************************************************    00953010
        01  HEADING-LINE-5.                                              00960017
-           05  FILLER      PIC X(20)   VALUE "NUM    CUSTOMER NAME".    00970001
+           05  FILLER      PIC X(8)    VALUE " NUM    ".                00961022
+           05  FILLER      PIC X(5)    VALUE "REP  ".                   00962022
+           05  FILLER      PIC X(20)   VALUE "NUM    CUSTOMER NAME".    00970023
            05  FILLER      PIC X(20)   VALUE "           THIS YTD ".    00980001
            05  FILLER      PIC X(20)   VALUE "     LAST YTD       ".    00990001
            05  FILLER      PIC X(20)   VALUE "AMOUNT    PERCENT   ".    00991014
-           05  FILLER      PIC X(50)   VALUE SPACE.                     01000014
+           05  FILLER      PIC X(37)   VALUE SPACE.                     01000022
                                                                         01010001
       **************************************************************    01010120
       * STORES THE SIXTH HEADER LINE INFORMATION FOR DISPLAYING    *    01010220
@@ -159,17 +164,17 @@
            05  FILLER      PIC X(5)   VALUE ALL '-'. *> SALES REP       01010920
            05  FILLER      PIC X      VALUE SPACE.                      01011020
            05  FILLER      PIC X(5)   VALUE ALL '-'. *> CUST NUM        01011120
-           05  FILLER      PIC X      VALUE SPACE.                      01011220
+           05  FILLER      PIC X(2)   VALUE SPACE.                      01011223
            05  FILLER      PIC X(20)  VALUE ALL '-'. *> CUST NAME       01011320
            05  FILLER      PIC X(3)   VALUE SPACE.                      01011420
            05  FILLER      PIC X(10)  VALUE ALL '-'. *> SALES THIS      01011520
-           05  FILLER      PIC X(3)   VALUE SPACE.                      01011620
+           05  FILLER      PIC X(4)   VALUE SPACE.                      01011623
            05  FILLER      PIC X(10)  VALUE ALL '-'. *> SALES LAST      01011720
-           05  FILLER      PIC X(3)   VALUE SPACE.                      01011820
+           05  FILLER      PIC X(4)   VALUE SPACE.                      01011823
            05  FILLER      PIC X(10)  VALUE ALL '-'. *> CHANGE AMNT     01011920
            05  FILLER      PIC X(3)   VALUE SPACE.                      01012020
            05  FILLER      PIC X(6)   VALUE ALL '-'. *> CHANGE PERC     01012120
-           05  FILLER      PIC X(43)  VALUE SPACE.                      01012320
+           05  FILLER      PIC X(40)  VALUE SPACE.                      01012323
                                                                         01012420
       **************************************************************    01012510
       * STORES INFORMATION ABOUT CURRENT CUSTOMER FOR DISPLAYING   *    01012610
@@ -204,7 +209,7 @@
       * AND THE PERCENTAGE DIFFERENCE - FOR OUTPUTTING             *    01112319
       **************************************************************    01113010
        01  GRAND-TOTAL-LINE.                                            01120001
-           05  FILLER              PIC X(27)    VALUE SPACE.            01130001
+           05  FILLER              PIC X(40)    VALUE SPACE.            01130023
            05  GTL-SALES-THIS-YTD  PIC Z,ZZZ,ZZ9.99-.                   01140001
            05  FILLER              PIC X(1)     VALUE SPACE.            01150001
            05  GTL-SALES-LAST-YTD  PIC Z,ZZZ,ZZ9.99-.                   01160001
@@ -212,7 +217,7 @@
            05  GTL-CHANGE-AMOUNT   PIC Z,ZZZ,ZZ9.99-.                   01162014
            05  FILLER              PIC X(3)     VALUE SPACE.            01162114
            05  GTL-CHANGE-PERCENT  PIC ZZ9.9-.                          01163014
-           05  FILLER              PIC X(53)    VALUE SPACE.            01170014
+           05  FILLER              PIC X(40)    VALUE SPACE.            01170023
                                                                         01180001
        PROCEDURE DIVISION.                                              01190001
                                                                         01200001

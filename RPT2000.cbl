@@ -61,7 +61,6 @@
            05  PAGE-COUNT      PIC S9(3)   VALUE ZERO.                  00500001
            05  LINES-ON-PAGE   PIC S9(3)   VALUE +55.                   00510001
            05  LINE-COUNT      PIC S9(3)   VALUE +99.                   00520001
-           05  SPACE-CONTROL   PIC S9.                                  00530001
                                                                         00540001
       **************************************************************    00541010
       * STORES TOTAL FIELDS FOR CALCULATING                        *    00542010
@@ -350,7 +349,6 @@
            *> ADD THIS CUSTOMERS SALES TO THE GRAND TOTALS              01642018
            ADD CM-SALES-THIS-YTD TO GRAND-TOTAL-THIS-YTD.               01650001
            ADD CM-SALES-LAST-YTD TO GRAND-TOTAL-LAST-YTD.               01660001
-           MOVE 1 TO SPACE-CONTROL. *> NOT USED                         01670019
                                                                         01680001
       **************************************************************    01681011
       * PRINT ALL THE HEADER LINES TO THE OUTPUT FILE, RAN ONCE    *    01682011
@@ -381,7 +379,6 @@
            *> OF A NEW PAGE AND WE ADD 2 TO THE SPACE CONTROL           01805019
            *> WHICH IS USED TO ADD LINE SPACING                         01806019
            MOVE ZERO TO LINE-COUNT.                                     01810001
-           MOVE 2 TO SPACE-CONTROL. *> THIS VALUE IS NEVER USED         01820019
                                                                         01830001
       **************************************************************    01831011
       * PRINTS THE GRAND TOTALS FOR ALL THE CUSTOMERS, RAN ONCE    *    01832011

@@ -71,7 +71,8 @@
            05  GRAND-TOTAL-LAST-YTD   PIC S9(7)V99   VALUE ZERO.        00570001
                                                                         00580001
       **************************************************************    00581010
-      * STORES CURRENT DATE-TIME FOR THE REPORT                    *    00582010
+      * USED TO PULL IN THE CURRENT-DATE-TIME VIA THE FUNCTION     *    00582019
+      * CURRENT-DATE-AND-TIME WHICH WILL BE USED IN HEADER LINES   *    00582119
       **************************************************************    00583010
        01  CURRENT-DATE-AND-TIME.                                       00590001
            05  CD-YEAR         PIC 9999.                                00600001
@@ -89,6 +90,7 @@
                                                                         00660614
       **************************************************************    00661010
       * STORES THE FIRST HEADER LINE INFORMATION FOR DISPLAYING    *    00662010
+      * HOLDS THE DATE, REPORT TITLE, AND PAGE NUMBER              *    00662119
       **************************************************************    00663010
        01  HEADING-LINE-1.                                              00670001
            05  FILLER          PIC X(7)    VALUE "DATE:  ".             00680001
@@ -106,6 +108,7 @@
                                                                         00800001
       **************************************************************    00801010
       * STORES THE SECOND HEADER LINE INFORMATION FOR DISPLAYING   *    00802010
+      * HOLDS THE TIME AND THE PROGRAM ID USED TO GENERATE IT      *    00802119
       **************************************************************    00803010
        01  HEADING-LINE-2.                                              00810001
            05  FILLER          PIC X(7)    VALUE "TIME:  ".             00820001
@@ -124,6 +127,8 @@
                                                                         00890617
       **************************************************************    00891010
       * STORES THE FOURTH HEADER LINE INFORMATION FOR DISPLAYING   *    00892017
+      * HOLDS THE DIFFERENT COLUMN NAMES - SOME ARE SPLIT ACROSS   *    00892119
+      * THE NEXT HEADER LINE                                       *    00892219
       **************************************************************    00893010
        01  HEADING-LINE-4.                                              00900017
            05  FILLER      PIC X(20)   VALUE "CUST                ".    00910001
@@ -134,6 +139,8 @@
                                                                         00950001
       **************************************************************    00951010
       * STORES THE FIFTH HEADER LINE INFORMATION FOR DISPLAYING    *    00952017
+      * HOLDS SOME OF THE COLUMN NAMES AS WELL AS THE OTHER HALF   *    00952119
+      * OF COLUMN NAMES THAT STARTED IN THE LAST HEADER LINE       *    00952219
       **************************************************************    00953010
        01  HEADING-LINE-5.                                              00960017
            05  FILLER      PIC X(20)   VALUE "NUM    CUSTOMER NAME".    00970001
@@ -145,6 +152,9 @@
                                                                         01010615
       **************************************************************    01011010
       * STORES INFORMATION ABOUT CURRENT CUSTOMER FOR DISPLAYING   *    01012010
+      * HOLDS THE CUSTOMER'S ID NUMBER, NAME, SALES THIS AND LAST  *    01012119
+      * YEAR-TO-DATE, DIFFERENCE BETWEEN SALES LAST-YEAR AND THIS  *    01012219
+      * YEAR AS WELL AS THE PERCENTAGE DIFFERENCE - FOR OUTPUTTING *    01012319
       **************************************************************    01013010
        01  CUSTOMER-LINE.                                               01020001
            05  CL-CUSTOMER-NUMBER  PIC 9(5).                            01030001
@@ -162,6 +172,9 @@
                                                                         01110001
       **************************************************************    01111010
       * STORES INFORMATION ABOUT THE GRAND TOTAL FOR DISPLAYING    *    01112010
+      * HOLDS THE TOTAL SALES FOR THIS AND LAST YEAR-TO-DATE,      *    01112119
+      * THE TOTAL DIFFERENCE IN SALES MADE BETWEEN THE TWO YEARS   *    01112219
+      * AND THE PERCENTAGE DIFFERENCE - FOR OUTPUTTING             *    01112319
       **************************************************************    01113010
        01  GRAND-TOTAL-LINE.                                            01120001
            05  FILLER              PIC X(27)    VALUE SPACE.            01130001
@@ -184,10 +197,19 @@
                                                                         01220001
            OPEN INPUT  CUSTMAST                                         01230001
                 OUTPUT ORPT2000.                                        01240001
+                                                                        01241019
+           *> GRABS THE DATE AND TIME INFORMATION FOR                   01242019
+           *> THE HEADER LINES                                          01243019
            PERFORM 100-FORMAT-REPORT-HEADING.                           01250001
+                                                                        01251019
+           *> GRAB AND PRINT CUSTOMER SALES TO THE OUPUT FILE UNTIL     01252019
+           *> THE END OF THE INPUT FILE                                 01253019
            PERFORM 200-PREPARE-SALES-LINES                              01260001
                UNTIL CUSTMAST-EOF-SWITCH = "Y".                         01270001
+                                                                        01271019
+           *> OUTPUT THE GRAND TOTALS TO THE OUTPUT FILE                01272019
            PERFORM 300-PRINT-GRAND-TOTALS.                              01280001
+                                                                        01281019
            CLOSE CUSTMAST                                               01290001
                  ORPT2000.                                              01300001
            STOP RUN.                                                    01310001
@@ -199,6 +221,10 @@
        100-FORMAT-REPORT-HEADING.                                       01330001
                                                                         01340001
            MOVE FUNCTION CURRENT-DATE TO CURRENT-DATE-AND-TIME.         01350001
+                                                                        01351019
+           *> MOVE THE RESULT OF THE DATE-TIME FUNCTION TO THE          01352019
+           *> DIFFERENT HEADER LINE FIELDS ASSOCIATED WITH THEM         01353019
+           *> SO WE CAN INCLUDE THE DATE IN THE OUTPUT HEADER           01354019
            MOVE CD-MONTH   TO HL1-MONTH.                                01360001
            MOVE CD-DAY     TO HL1-DAY.                                  01370001
            MOVE CD-YEAR    TO HL1-YEAR.                                 01380001
@@ -212,7 +238,13 @@
       **************************************************************    01414011
        200-PREPARE-SALES-LINES.                                         01420001
                                                                         01430001
+           *> GRAB THE NEXT LINE FROM THE CUSTOMER RECORD               01431019
            PERFORM 210-READ-CUSTOMER-RECORD.                            01440001
+                                                                        01441019
+           *> IF THE LINE WE READ WASN'T THE LAST ONE AND THE TOTAL     01442019
+           *> SALES THIS YEAR-TO-DATE WAS GREATER THAN $10,000          01443019
+           *> WE WILL OUTPUT THAT CUSTOMER'S SALES TO THE OUTPUT        01444019
+           *> NOTE: WE DON'T OUTPUT THE LAST LINE BECAUSE IT'S BLANK    01445019
            IF CUSTMAST-EOF-SWITCH = "N"                                 01450001
                IF CM-SALES-THIS-YTD >= 10000                            01451018
                    PERFORM 220-PRINT-CUSTOMER-LINE.                     01460018
@@ -234,6 +266,8 @@
       **************************************************************    01534011
        220-PRINT-CUSTOMER-LINE.                                         01540001
                                                                         01550001
+           *> IF INFORMATION WE HAVE PRINTED EXCEEDS THE PAGE LIMIT     01551019
+           *> WE REPRINT THE HEADERS FOR THE NEW PAGE                   01552019
            IF LINE-COUNT >= LINES-ON-PAGE                               01560001
                PERFORM 230-PRINT-HEADING-LINES.                         01570001
                                                                         01571018
@@ -244,11 +278,16 @@
            MOVE CM-SALES-THIS-YTD   TO CL-SALES-THIS-YTD.               01600001
            MOVE CM-SALES-LAST-YTD   TO CL-SALES-LAST-YTD.               01610001
                                                                         01610118
-           *> CALCULATE THE DIFFERENCE BETWEEN THIS YEAR AND LAST       01610218
-           *> SAVE THESE RESULTS TO CHANGE-AMOUNT AND CHANGE-PERCENT    01610318
+           *> CALCULATE THE DIFFERENCE BETWEEN THIS YEAR'S SALES AND    01610219
+           *> AND LAST THEN SAVE THESE RESULT TO CHANGE-AMOUNT AND      01610319
            COMPUTE CHANGE-AMOUNT =                                      01611018
                CM-SALES-THIS-YTD - CM-SALES-LAST-YTD.                   01612018
            MOVE CHANGE-AMOUNT TO CL-CHANGE-AMOUNT.                      01613018
+                                                                        01613119
+           *> CALCULATE THE PERCENT FOR THE CHANGE IN SALES BETWEEN     01613219
+           *> THIS AND LAST YTD, IF THERE WAS NO LAST YEAR SALES        01613319
+           *> NUMBER WE MOVE 999.9 TO THE PERECENTAGE SINCE IT'S        01613419
+           *> A DIVIDE BY ZERO ERROR OTHERWISE                          01613519
            IF CM-SALES-LAST-YTD = ZERO                                  01614018
                MOVE 999.9 TO CL-CHANGE-PERCENT                          01615018
            ELSE                                                         01616018
@@ -265,7 +304,7 @@
            *> ADD THIS CUSTOMERS SALES TO THE GRAND TOTALS              01642018
            ADD CM-SALES-THIS-YTD TO GRAND-TOTAL-THIS-YTD.               01650001
            ADD CM-SALES-LAST-YTD TO GRAND-TOTAL-LAST-YTD.               01660001
-           MOVE 1 TO SPACE-CONTROL.                                     01670001
+           MOVE 1 TO SPACE-CONTROL. *> NOT USED                         01670019
                                                                         01680001
       **************************************************************    01681011
       * PRINT ALL THE HEADER LINES TO THE OUTPUT FILE, RAN ONCE    *    01682011
@@ -285,8 +324,12 @@
            WRITE PRINT-AREA.                                            01800001
            MOVE HEADING-LINE-5 TO PRINT-AREA.                           01801017
            WRITE PRINT-AREA.                                            01802017
+                                                                        01803019
+           *> RESET THE LINE COUNTER SINCE EVERY HEADER IS THE START    01804019
+           *> OF A NEW PAGE AND WE ADD 2 TO THE SPACE CONTROL           01805019
+           *> WHICH IS USED TO ADD LINE SPACING                         01806019
            MOVE ZERO TO LINE-COUNT.                                     01810001
-           MOVE 2 TO SPACE-CONTROL.                                     01820001
+           MOVE 2 TO SPACE-CONTROL. *> THIS VALUE IS NEVER USED         01820019
                                                                         01830001
       **************************************************************    01831011
       * PRINTS THE GRAND TOTALS FOR ALL THE CUSTOMERS, RAN ONCE    *    01832011

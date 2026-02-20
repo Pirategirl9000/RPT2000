@@ -202,13 +202,27 @@
            05  CL-CHANGE-PERCENT   PIC ZZ9.9-.                          01094014
            05  FILLER              PIC X(40)    VALUE SPACE.            01100021
                                                                         01110001
-      **************************************************************    01111010
+      **************************************************************    01110124
+      * STORES THE FIRST GRAND TOTAL LINE FOR DISPLAYING           *    01110224
+      * DISPLAYS COLUMN DIVIDERS FOR THE GRAND TOTALS              *    01110324
+      **************************************************************    01110424
+       01  GRAND-TOTAL-LINE1.                                           01110724
+           05  FILLER              PIC X(40)    VALUE SPACE.            01110824
+           05  FILLER              PIC X(13)    VALUE ALL '='.          01110924
+           05  FILLER              PIC X        VALUE SPACE.            01111024
+           05  FILLER              PIC X(13)    VALUE ALL '='.          01111124
+           05  FILLER              PIC X        VALUE SPACE.            01111224
+           05  FILLER              PIC X(13)    VALUE ALL '='.          01111324
+           05  FILLER              PIC X(3)     VALUE SPACES.           01111424
+           05  FILLER              PIC X(6)     VALUE ALL '='.          01111524
+           05  FILLER              PIC X(40)    VALUE SPACES.           01111624
+      **************************************************************    01111710
       * STORES INFORMATION ABOUT THE GRAND TOTAL FOR DISPLAYING    *    01112010
       * HOLDS THE TOTAL SALES FOR THIS AND LAST YEAR-TO-DATE,      *    01112119
       * THE TOTAL DIFFERENCE IN SALES MADE BETWEEN THE TWO YEARS   *    01112219
       * AND THE PERCENTAGE DIFFERENCE - FOR OUTPUTTING             *    01112319
       **************************************************************    01113010
-       01  GRAND-TOTAL-LINE.                                            01120001
+       01  GRAND-TOTAL-LINE2.                                           01120024
            05  FILLER              PIC X(40)    VALUE SPACE.            01130023
            05  GTL-SALES-THIS-YTD  PIC Z,ZZZ,ZZ9.99-.                   01140001
            05  FILLER              PIC X(1)     VALUE SPACE.            01150001
@@ -401,5 +415,7 @@
                        MOVE 999.9 TO GTL-CHANGE-PERCENT.                01879118
                                                                         01879218
            *> PRINT THE GRAND-TOTAL TO THE OUTPUT FILE                  01879318
-           MOVE GRAND-TOTAL-LINE     TO PRINT-AREA.                     01880001
+           MOVE GRAND-TOTAL-LINE1    TO PRINT-AREA.                     01880024
            WRITE PRINT-AREA.                                            01890001
+           MOVE GRAND-TOTAL-LINE2    TO PRINT-AREA.                     01900024
+           WRITE PRINT-AREA.                                            01910024

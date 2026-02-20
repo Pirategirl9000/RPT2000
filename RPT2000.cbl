@@ -149,12 +149,33 @@
            05  FILLER      PIC X(20)   VALUE "AMOUNT    PERCENT   ".    00991014
            05  FILLER      PIC X(50)   VALUE SPACE.                     01000014
                                                                         01010001
-                                                                        01010615
-      **************************************************************    01011010
-      * STORES INFORMATION ABOUT CURRENT CUSTOMER FOR DISPLAYING   *    01012010
-      * HOLDS THE CUSTOMER'S ID NUMBER, NAME, SALES THIS AND LAST  *    01012119
-      * YEAR-TO-DATE, DIFFERENCE BETWEEN SALES LAST-YEAR AND THIS  *    01012219
-      * YEAR AS WELL AS THE PERCENTAGE DIFFERENCE - FOR OUTPUTTING *    01012319
+      **************************************************************    01010120
+      * STORES THE SIXTH HEADER LINE INFORMATION FOR DISPLAYING    *    01010220
+      * DISPLAYS COLUMN DIVIDERS FOR THE REPORT                    *    01010320
+      **************************************************************    01010520
+       01  HEADING-LINE-6.                                              01010620
+           05  FILLER      PIC X(6)   VALUE ALL '-'. *> BRANCH NUM      01010720
+           05  FILLER      PIC X      VALUE SPACE.                      01010820
+           05  FILLER      PIC X(5)   VALUE ALL '-'. *> SALES REP       01010920
+           05  FILLER      PIC X      VALUE SPACE.                      01011020
+           05  FILLER      PIC X(5)   VALUE ALL '-'. *> CUST NUM        01011120
+           05  FILLER      PIC X      VALUE SPACE.                      01011220
+           05  FILLER      PIC X(20)  VALUE ALL '-'. *> CUST NAME       01011320
+           05  FILLER      PIC X(3)   VALUE SPACE.                      01011420
+           05  FILLER      PIC X(10)  VALUE ALL '-'. *> SALES THIS      01011520
+           05  FILLER      PIC X(3)   VALUE SPACE.                      01011620
+           05  FILLER      PIC X(10)  VALUE ALL '-'. *> SALES LAST      01011720
+           05  FILLER      PIC X(3)   VALUE SPACE.                      01011820
+           05  FILLER      PIC X(10)  VALUE ALL '-'. *> CHANGE AMNT     01011920
+           05  FILLER      PIC X(3)   VALUE SPACE.                      01012020
+           05  FILLER      PIC X(6)   VALUE ALL '-'. *> CHANGE PERC     01012120
+           05  FILLER      PIC X(43)  VALUE SPACE.                      01012320
+                                                                        01012420
+      **************************************************************    01012510
+      * STORES INFORMATION ABOUT CURRENT CUSTOMER FOR DISPLAYING   *    01012610
+      * HOLDS THE CUSTOMER'S ID NUMBER, NAME, SALES THIS AND LAST  *    01012719
+      * YEAR-TO-DATE, DIFFERENCE BETWEEN SALES LAST-YEAR AND THIS  *    01012819
+      * YEAR AS WELL AS THE PERCENTAGE DIFFERENCE - FOR OUTPUTTING *    01012919
       **************************************************************    01013010
        01  CUSTOMER-LINE.                                               01020001
            05  CL-CUSTOMER-NUMBER  PIC 9(5).                            01030001
@@ -312,8 +333,12 @@
       **************************************************************    01684011
        230-PRINT-HEADING-LINES.                                         01690001
                                                                         01700001
+           *> HEADERS ARE PLACED AT THE START OF EVERY PAGE             01701020
+           *> SO WE INCREASE THE PAGE COUNT HERE                        01702020
            ADD 1 TO PAGE-COUNT.                                         01710001
            MOVE PAGE-COUNT     TO HL1-PAGE-NUMBER.                      01720001
+                                                                        01721020
+           *> PRINT EACH HEADER LINE TO THE OUTPUT FILE                 01722020
            MOVE HEADING-LINE-1 TO PRINT-AREA.                           01730001
            WRITE PRINT-AREA.                                            01740001
            MOVE HEADING-LINE-2 TO PRINT-AREA.                           01750001
@@ -324,7 +349,9 @@
            WRITE PRINT-AREA.                                            01800001
            MOVE HEADING-LINE-5 TO PRINT-AREA.                           01801017
            WRITE PRINT-AREA.                                            01802017
-                                                                        01803019
+           MOVE HEADING-LINE-6 TO PRINT-AREA.                           01802120
+           WRITE PRINT-AREA.                                            01803020
+                                                                        01803120
            *> RESET THE LINE COUNTER SINCE EVERY HEADER IS THE START    01804019
            *> OF A NEW PAGE AND WE ADD 2 TO THE SPACE CONTROL           01805019
            *> WHICH IS USED TO ADD LINE SPACING                         01806019
@@ -344,10 +371,14 @@
            MOVE GRAND-TOTAL-LAST-YTD TO GTL-SALES-LAST-YTD.             01870001
                                                                         01870118
            *> COMPUTE THE GRAND TOTAL FOR THE CHANGE AMOUNT             01870218
-           *> AND THE CHANGE PERCENT                                    01870318
            COMPUTE CHANGE-AMOUNT =                                      01871018
                GRAND-TOTAL-THIS-YTD - GRAND-TOTAL-LAST-YTD.             01872018
            MOVE CHANGE-AMOUNT TO GTL-CHANGE-AMOUNT.                     01873018
+                                                                        01873120
+           *> CALCULATE THE TOTAL CHANGE IN PERCENT BETWEEN             01873220
+           *> THIS YTD AND LAST YTD FOR ALL CUSTOMERS                   01873320
+           *> IF THERE WAS NO LAST YEAR FOR ANYONE DEFAULT TO           01873420
+           *> A PERCENT OF 999.9 TO AVOID DIVIDE BY ZERO ERROR          01873520
            IF GRAND-TOTAL-LAST-YTD = ZERO                               01874018
                MOVE 999.9 TO GTL-CHANGE-PERCENT                         01875018
            ELSE                                                         01876018

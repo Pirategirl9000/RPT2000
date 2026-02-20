@@ -214,7 +214,8 @@
                                                                         01430001
            PERFORM 210-READ-CUSTOMER-RECORD.                            01440001
            IF CUSTMAST-EOF-SWITCH = "N"                                 01450001
-               PERFORM 220-PRINT-CUSTOMER-LINE.                         01460001
+               IF CM-SALES-THIS-YTD >= 10000                            01451018
+                   PERFORM 220-PRINT-CUSTOMER-LINE.                     01460018
                                                                         01470001
       **************************************************************    01471011
       * READS A LINE OF THE INPUT FILE AND IF ITS THE LAST ONE     *    01472011
@@ -235,13 +236,33 @@
                                                                         01550001
            IF LINE-COUNT >= LINES-ON-PAGE                               01560001
                PERFORM 230-PRINT-HEADING-LINES.                         01570001
+                                                                        01571018
+           *> MOVE THE DATA PULLED FROM THE INPUT FILE INTO THE         01572018
+           *> CUSTOMER LINE RECORD FOR LATER OUTPUT                     01573018
            MOVE CM-CUSTOMER-NUMBER  TO CL-CUSTOMER-NUMBER.              01580001
            MOVE CM-CUSTOMER-NAME    TO CL-CUSTOMER-NAME.                01590001
            MOVE CM-SALES-THIS-YTD   TO CL-SALES-THIS-YTD.               01600001
            MOVE CM-SALES-LAST-YTD   TO CL-SALES-LAST-YTD.               01610001
+                                                                        01610118
+           *> CALCULATE THE DIFFERENCE BETWEEN THIS YEAR AND LAST       01610218
+           *> SAVE THESE RESULTS TO CHANGE-AMOUNT AND CHANGE-PERCENT    01610318
+           COMPUTE CHANGE-AMOUNT =                                      01611018
+               CM-SALES-THIS-YTD - CM-SALES-LAST-YTD.                   01612018
+           MOVE CHANGE-AMOUNT TO CL-CHANGE-AMOUNT.                      01613018
+           IF CM-SALES-LAST-YTD = ZERO                                  01614018
+               MOVE 999.9 TO CL-CHANGE-PERCENT                          01615018
+           ELSE                                                         01616018
+               COMPUTE CL-CHANGE-PERCENT ROUNDED =                      01617018
+                   CHANGE-AMOUNT * 100 / CM-SALES-LAST-YTD              01618018
+                   ON SIZE ERROR                                        01619018
+                       MOVE 999.9 TO CL-CHANGE-PERCENT.                 01619118
+                                                                        01619218
+           *> PRINT THIS CUSTOMERS INFORMATION TO THE OUTPUT FILE       01619318
            MOVE CUSTOMER-LINE TO PRINT-AREA.                            01620001
            WRITE PRINT-AREA.                                            01630001
            ADD 1 TO LINE-COUNT.                                         01640001
+                                                                        01641018
+           *> ADD THIS CUSTOMERS SALES TO THE GRAND TOTALS              01642018
            ADD CM-SALES-THIS-YTD TO GRAND-TOTAL-THIS-YTD.               01650001
            ADD CM-SALES-LAST-YTD TO GRAND-TOTAL-LAST-YTD.               01660001
            MOVE 1 TO SPACE-CONTROL.                                     01670001
@@ -274,7 +295,24 @@
       **************************************************************    01834011
        300-PRINT-GRAND-TOTALS.                                          01840001
                                                                         01850001
+           *> MOVE THE GRAND TOTALS FOR THE SALES TO THE                01851018
+           *> OUTPUT LINE FOR GRAND TOTALS                              01852018
            MOVE GRAND-TOTAL-THIS-YTD TO GTL-SALES-THIS-YTD.             01860001
            MOVE GRAND-TOTAL-LAST-YTD TO GTL-SALES-LAST-YTD.             01870001
+                                                                        01870118
+           *> COMPUTE THE GRAND TOTAL FOR THE CHANGE AMOUNT             01870218
+           *> AND THE CHANGE PERCENT                                    01870318
+           COMPUTE CHANGE-AMOUNT =                                      01871018
+               GRAND-TOTAL-THIS-YTD - GRAND-TOTAL-LAST-YTD.             01872018
+           MOVE CHANGE-AMOUNT TO GTL-CHANGE-AMOUNT.                     01873018
+           IF GRAND-TOTAL-LAST-YTD = ZERO                               01874018
+               MOVE 999.9 TO GTL-CHANGE-PERCENT                         01875018
+           ELSE                                                         01876018
+               COMPUTE GTL-CHANGE-PERCENT ROUNDED =                     01877018
+                   CHANGE-AMOUNT * 100 / GRAND-TOTAL-LAST-YTD           01878018
+                   ON SIZE ERROR                                        01879018
+                       MOVE 999.9 TO GTL-CHANGE-PERCENT.                01879118
+                                                                        01879218
+           *> PRINT THE GRAND-TOTAL TO THE OUTPUT FILE                  01879318
            MOVE GRAND-TOTAL-LINE     TO PRINT-AREA.                     01880001
            WRITE PRINT-AREA.                                            01890001

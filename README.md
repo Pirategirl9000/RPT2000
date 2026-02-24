@@ -24,3 +24,10 @@ This program uses a dataset to produce a report based on customer sales reports.
 * `TOTAL-FIELDS` - Record containing information about the grand totals for last YTD and this YTD
 * `CURRENT-DATE-AND-TIME` - Record used for grabbing the current data and time via the CURRENT-DATE-AND-TIME function
 * `CHANGE-AMOUNT` - Contains the difference in sales between last YTD and this YTD
+* `HEADING-LINE-1` THRU `HEADING-LINE-6` - Records 130 character long used for outputting header lines for each page
+* `CUSTOMER-LINE` - Record containing information about the current customer
+  * `CL-CUSTOMER-NAME` - The name of this customer
+  * `CL-SALES-THIS-YTD` - Sales this year-to-date
+  * `CL-SALES-LAST-YTD` - Sales last year-to-date
+  * `CL-CHANGE-AMOUNT` - The difference between this year and last year's sales
+  * `CL-CHANGE-PERCENT` - The percent difference between this year and last year's sales

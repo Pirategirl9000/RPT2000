@@ -6,11 +6,19 @@
 ## Table of Contents
 * [Author](#author)
 * [Purpose](#purpose)
+* [New Concepts](#new-concepts-used)
 * [Script Breakdown](#script-breakdown)
 * [Credits](#credits)
 
 ## Purpose
 This program uses a dataset to produce a report based on customer sales reports. The resulting report will be stored to a new dataset. The report details the spendings for this year and last as well as the difference between the two for each customer.
+
+## New Concepts Used
+* File IO
+* Header line formatting
+* CURRENT-DATE-TIME function
+* Formatting for multiple pages
+* File descriptions
 
 ## Script Breakdown
 

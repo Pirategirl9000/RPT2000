@@ -7,6 +7,7 @@
 * [Author](#author)
 * [Purpose](#purpose)
 * [Script Breakdown](#script-breakdown)
+* [Credits](#credits)
 
 ## Purpose
 This program uses a dataset to produce a report based on customer sales reports. The resulting report will be stored to a new dataset. The report details the spendings for this year and last as well as the difference between the two for each customer.
@@ -53,3 +54,6 @@ This program uses a dataset to produce a report based on customer sales reports.
   * Moves to the next page by resetting line count, incrementing page count, and reprinting header lines
 * `300-PRINT-GRAND-TOTALS`
   * Calculates and prints the grand totals
+ 
+## Credits
+###### This program is an adaptation of a script provided by [Murach's Mainframe COBOL](https://www.murach.com/shop/murachs-mainframe-cobol-detail)

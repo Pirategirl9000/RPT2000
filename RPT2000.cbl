@@ -112,10 +112,10 @@
            05  HL1-DAY         PIC 9(2).                                00710001
            05  FILLER          PIC X(1)    VALUE "/".                   00720001
            05  HL1-YEAR        PIC 9(4).                                00730001
-           05  FILLER          PIC X(11)   VALUE SPACE.                 00740001
+           05  FILLER          PIC X(16)   VALUE SPACE.                 00740001
            05  FILLER          PIC X(20)   VALUE "YEAR-TO-DATE SALES R".00750001
-           05  FILLER          PIC X(20)   VALUE "EPORT               ".00760017
-           05  FILLER          PIC X(10)   VALUE SPACE.                 00761023
+           05  FILLER          PIC X(10)   VALUE "EPORT     ".          00760017
+           05  FILLER          PIC X(15)   VALUE SPACE.                 00761037
            05  FILLER          PIC X(8)    VALUE "  PAGE: ".            00770001
            05  HL1-PAGE-NUMBER PIC ZZZ9.                                00780017
            05  FILLER          PIC X(39)   VALUE SPACE.                 00790023

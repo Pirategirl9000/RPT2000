@@ -56,4 +56,4 @@ This program uses a dataset to produce a report based on customer sales reports.
   * Calculates and prints the grand totals
  
 ## Credits
-###### This program is an adaptation of a script provided by [Murach's Mainframe COBOL](https://www.murach.com/shop/murachs-mainframe-cobol-detail)
+###### This program is an adaptation of a script provided by [Murach's Mainframe COBOL](https://www.murach.com/shop/murachs-mainframe-cobol-detail) and edited by [Debbie Johnson](https://github.com/dejohns2)

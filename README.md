@@ -17,7 +17,8 @@ This program uses a dataset to produce a report based on customer sales reports.
 * `CUSTMAST` - The name of the input file
   * `CUSTOMER-MASTER-RECORD` - A record containing all the information about each customer
 * `ORPT2000` - The COBOL alias for the output file which is RPT2000
-  * `PRINT-AREA` - 130 size picture clause for writing to the file  
+  * `PRINT-AREA` - 130 size picture clause for writing to the file
+
 ### Notable Data Items & Records
 * `CUSTMAST-EOF-SWITCH` - Marks when the end of the file has been reached
 * `PRINT-FIELDS` - Record containing information about the page including lines per page, current line, and page number
@@ -36,3 +37,19 @@ This program uses a dataset to produce a report based on customer sales reports.
   * `GTL-SALES-LAST-YTD` - Total sales last year-to-date
   * `GTL-CHANGE-AMOUNT` - The total difference between last year's sales and this years
   * `GTL-CHANGE-PERCENT` - The percentage difference between last year's sales and this years
+ 
+### Paragraphs
+* `000-PREPARE-SALES-REPORT`
+  * Opens and closes the IO files and delgates the work for reading/writing them
+* `100-FORMAT-REPORT-HEADING`
+  * Formats the header file by retrieving the date and moving it to the appropriate header lines
+* `200-PREPARE-SALES-LINES`
+  * Calls `210-READ-CUSTOMER-RECORD` to read the current record then if it's not the last record it calls `220-PRINT-CUSTOMER-LINE` to print the customer line
+* `210-READ-CUSTOMER-RECORD`
+  * Reads the next line of the customer records and if it's the end of file it moves 'Y' to `CUSTMAST-EOF-SWITCH`
+* `220-PRINT-CUSTOMER-LINE`
+  * If this line is on the next page, reprints the header lines, then performs calculations for determining the values for the customer line before outputting them with the other customer information gathered from the input file
+* `230-PRINT-HEADING-LINES`
+  * Moves to the next page by resetting line count, incrementing page count, and reprinting header lines
+* `300-PRINT-GRAND-TOTALS`
+  * Calculates and prints the grand totals

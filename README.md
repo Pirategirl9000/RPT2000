@@ -31,3 +31,8 @@ This program uses a dataset to produce a report based on customer sales reports.
   * `CL-SALES-LAST-YTD` - Sales last year-to-date
   * `CL-CHANGE-AMOUNT` - The difference between this year and last year's sales
   * `CL-CHANGE-PERCENT` - The percent difference between this year and last year's sales
+* `GRAND-TOTAL-LINE-1` AND `GRAND-TOTAL-LINE-2` - Records used for outputting the grandtotals
+  * `GTL-SALES-THIS-YTD` - Total sales for this year-to-date
+  * `GTL-SALES-LAST-YTD` - Total sales last year-to-date
+  * `GTL-CHANGE-AMOUNT` - The total difference between last year's sales and this years
+  * `GTL-CHANGE-PERCENT` - The percentage difference between last year's sales and this years
